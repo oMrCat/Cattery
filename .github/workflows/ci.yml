@@ -13,19 +13,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Unpack source
-        shell: pwsh
-        run: Expand-Archive -LiteralPath '调试器.zip' -DestinationPath build-src -Force
-
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
 
+      # 源码已入库（调试器/）；zip 仅作历史归档保留
       - name: Build Release x64
-        working-directory: build-src/调试器
+        working-directory: 调试器
         run: msbuild 调试器项目.vcxproj -p:Configuration=Release -p:Platform=x64 -m -v:m
 
       - name: Upload exe
         uses: actions/upload-artifact@v4
         with:
           name: debugger-x64
-          path: build-src/调试器/x64/Release/调试器项目.exe
+          path: 调试器/x64/Release/调试器项目.exe
