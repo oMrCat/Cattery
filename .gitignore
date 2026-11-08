@@ -1,0 +1,11 @@
+调试器/x64/
+调试器/调试器项目/x64/
+调试器/调试器项目/Debug/
+*.obj
+*.tlog
+*.pdb
+*.ipdb
+*.iobj
+*.recipe
+*.lastbuildstate
+*.log
