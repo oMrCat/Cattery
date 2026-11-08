@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Unpack source
+        shell: pwsh
+        run: Expand-Archive -LiteralPath '调试器.zip' -DestinationPath build-src -Force
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Build Release x64
+        working-directory: build-src/调试器
+        run: msbuild 调试器项目.vcxproj -p:Configuration=Release -p:Platform=x64 -m -v:m
+
+      - name: Upload exe
+        uses: actions/upload-artifact@v4
+        with:
+          name: debugger-x64
+          path: build-src/调试器/x64/Release/调试器项目.exe
