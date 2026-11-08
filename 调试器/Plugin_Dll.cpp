@@ -41,12 +41,24 @@ void Plugin_Dll::LoadDll(int dwPid)
 		nPath.Format(L"%s", PATH + n + FileName[i]);
 		str = W2A(nPath);
 		str_last=FileNameLast(str);
-		if (strcmp(str_last,"dll")==0)
+		if (str_last != nullptr && strcmp(str_last,"dll")==0)
 		{
 			//1. 载入dll文件 得到模块句柄
 			HMODULE nhModule = LoadLibrary(nPath);
+			if (nhModule == nullptr)
+			{
+				// 加载失败（位数不符/缺依赖）不能继续——否则空指针调用崩溃
+				printf("插件加载失败：%s（错误码 %lu）\n", str, GetLastError());
+				continue;
+			}
 			//2. 搜索dll中的函数
 			g_pFun = (FUN)GetProcAddress(nhModule, "Fun");
+			if (g_pFun == nullptr)
+			{
+				printf("插件缺少导出函数 Fun：%s\n", str);
+				FreeLibrary(nhModule);
+				continue;
+			}
 			//3. 调用它
 			g_pFun(dwPid);
 			//4. 释放dll
