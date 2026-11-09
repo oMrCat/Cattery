@@ -9,3 +9,9 @@
 *.recipe
 *.lastbuildstate
 *.log
+
+# Win32 Debug 运行时的调试版 CRT（本机测试用，勿入库）
+调试器/demo/concrt140d.dll
+调试器/demo/msvcp140*d.dll
+调试器/demo/vcruntime140d.dll
+调试器/demo/ucrtbased.dll
