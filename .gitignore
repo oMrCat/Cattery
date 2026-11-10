@@ -15,3 +15,7 @@
 调试器/demo/msvcp140*d.dll
 调试器/demo/vcruntime140d.dll
 调试器/demo/ucrtbased.dll
+调试器/demo/vccorlib140d.dll
+调试器/demo/vcruntime140_threadsd.dll
+调试器/demo/调试器项目.exe
+调试器/demo/调试器项目.pdb
